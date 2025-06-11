@@ -1,199 +1,146 @@
-import { useState } from "react";
-import Navbar from "../components/Navbar";
-
 const BookForm = () => {
-  const [image, setImage] = useState("");
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
-  const [ratings, setRatings] = useState("");
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault(); // stop page refresh
-
-  //   const newBook = {
-  //     title,
-  //     description,
-  //     price: Number(price),
-  //     image,
-  //   };
-  //   console.log("Submitting newBook:", newBook);
-  //   try {
-  //     const response = await fetch(
-  //       "https://btl-products-api.onrender.com/products",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(newBook),
-  //       }
-  //     );
-  //     const responseData = await response.json();
-  //     console.log("API response:", response.status, responseData);
-
-  //     if (response.ok) {
-  //       alert("Book added successfully!");
-  //       // Optionally clear the form
-  //       setTitle("");
-  //       setDescription("");
-  //       setPrice("");
-  //       setImage("");
-  //     } else {
-  //       alert("Something went wrong while adding the book.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error adding book:", error);
-  //     alert("Network error or server issue.");
-  //   }
-  // };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const newBook = {
-      title,
-      description,
-      price: Number(price),
-      image,
-      brand,
-      category,
-      ratings: Number(ratings),
-    };
-
-    console.log("Submitting newBook:", newBook);
-
-    try {
-      const response = await fetch(
-        "https://btl-products-api.onrender.com/products",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newBook),
-        }
-      );
-
-      const responseData = await response.json();
-      console.log("API response:", response.status, responseData);
-
-      if (response.ok) {
-        alert("Book added successfully!");
-        setTitle("");
-        setDescription("");
-        setPrice("");
-        setImage("");
-      } else {
-        alert("Something went wrong while adding the book.");
-      }
-    } catch (error) {
-      console.error("Error adding book:", error);
-      alert("Network error or server issue.");
-    }
-  };
-
   return (
-    <div>
-      <Navbar />
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">
-          Title
-          <br />
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-md space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800">Add a Book</h2>
+      <form className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Image URL
+          </label>
           <input
             type="text"
-            id="title"
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            placeholder="Enter Product name"
-            required
-          />{" "}
-        </label>
-        <br />
-        <label htmlFor="brand">
-          Brand
-          <br />
-          <input
-            type="text"
-            id="brand"
-            value={brand}
-            onChange={(event) => setBrand(event.target.value)}
-            placeholder="Enter Product name"
-            required
-          />{" "}
-        </label>
-        <br />
-        <label htmlFor="category">
-          Category
-          <br />
-          <input
-            type="text"
-            id="category"
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-            placeholder="Enter Product name"
-            required
-          />{" "}
-        </label>
-        <br />
+            placeholder="image-url"
+            class="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
+          />
+        </div>
 
-        <label htmlFor="description">
-          Description
-          <br />
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Title
+          </label>
+          <input
+            type="text"
+            placeholder="Book Title"
+            class="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Summary
+          </label>
           <textarea
-            name=""
-            id="description"
+            placeholder="Short summary of the book"
             rows="4"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            placeholder="Give a brief description of the product"
+            class="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
           ></textarea>
-        </label>
-        <br />
+        </div>
 
-        <label htmlFor="image">
-          Image Url
-          <br />
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Author
+          </label>
           <input
             type="text"
-            id="image"
-            value={image}
-            onChange={(event) => setImage(event.target.value)}
-            required
-            placeholder="Insert your image's url here"
-          />{" "}
-        </label>
-        <br />
+            placeholder="Author Name"
+            class="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
+          />
+        </div>
 
-        <label htmlFor="price">
-          Price
-          <br />
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Publisher
+          </label>
+          <input
+            type="text"
+            placeholder="Publisher Name"
+            class="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Year of Publication
+          </label>
           <input
             type="number"
-            id="price"
-            required
-            value={price}
-            onChange={(event) => setPrice(event.target.value)}
+            placeholder="2025"
+            class="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
           />
-        </label>
-        <br />
-        <label htmlFor="ratings">
-          Ratings
-          <br />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Genre
+          </label>
+          <input
+            type="text"
+            placeholder="e.g., Fiction, Romance"
+            class="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Rating (1 to 5)
+          </label>
           <input
             type="number"
-            id="ratings"
-            required
-            value={ratings}
-            onChange={(event) => setRatings(event.target.value)}
+            min="1"
+            max="5"
+            placeholder="4"
+            class="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
           />
-        </label>
-        <br />
+        </div>
 
-        <button type="submit">Submit</button>
+        <div className="flex space-x-4">
+          <button
+            type="add"
+            className="ml-6 w-5/12 bg-blue-600 px-6 text-white p-2 rounded-xl hover:bg-blue-700 transition"
+          >
+            Add
+          </button>
+          <button
+            type="edit"
+            className="w-5/12 bg-blue-600 text-white px-6 p-2 rounded-xl hover:bg-blue-700 transition"
+          >
+            Edit
+          </button>
+        </div>
       </form>
     </div>
+
+    // <form className="width-[40] p-20px border-1px rounded-lg border-gray-600">
+    //   <div>
+    //     <label>Image:</label>
+    //     <input type="text" id="Image" required />
+    //   </div>
+
+    //   <div>
+    //     <label>Title:</label>
+    //     <input type="text" id="Title" required />
+    //   </div>
+
+    //   <div>
+    //     <label>Summary:</label>
+    //     <input type="text" id="Summary" required />
+    //   </div>
+
+    //   <div>
+    //     <label>Author:</label>
+    //     <input type="text" id="Name" required />
+    //   </div>
+
+    //   <div>
+    //     <label>Publisher:</label>
+    //     <input type="text" id="name" required />
+    //   </div>
+
+    //   <div>
+    //     <label>Year of Publisher:</label>
+    //     <input type="text" id="date" required />
+    //   </div>
+    // </form>
   );
 };
 
