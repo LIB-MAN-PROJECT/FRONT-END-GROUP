@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import PagesLayouts from "../layouts/PagesLayouts";
 
 const BookDetails2 = () => {
   const { id } = useParams();
@@ -9,7 +9,9 @@ const BookDetails2 = () => {
 
   const Filter = async () => {
     try {
-      const response = await fetch("https://btl-products-api.onrender.com/products");
+      const response = await fetch(
+        "https://btl-products-api.onrender.com/products"
+      );
       const data = await response.json();
       const matchedBook = data.find((item) => item.id.toString() === id);
       setBook(matchedBook);
@@ -28,18 +30,16 @@ const BookDetails2 = () => {
   if (!book) return <p>Book not found.</p>;
 
   return (
-    <div>
-        <Navbar/>
+    <PagesLayouts>
       <img src={book.image} alt={book.title} />
       <p>ID: {book.id}</p>
       <h1>{book.title}</h1>
       <p>{book.description}</p>
       <p>{book.price}</p>
       <button>
-        <Link to ="/books"> Back to Book List!
-        </Link>
+        <Link to="/books"> Back to Book List!</Link>
       </button>
-    </div>
+    </PagesLayouts>
   );
 };
 

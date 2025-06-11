@@ -10,45 +10,7 @@ const BookForm = () => {
   const [category, setCategory] = useState("");
   const [ratings, setRatings] = useState("");
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault(); // stop page refresh
-
-  //   const newBook = {
-  //     title,
-  //     description,
-  //     price: Number(price),
-  //     image,
-  //   };
-  //   console.log("Submitting newBook:", newBook);
-  //   try {
-  //     const response = await fetch(
-  //       "https://btl-products-api.onrender.com/products",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(newBook),
-  //       }
-  //     );
-  //     const responseData = await response.json();
-  //     console.log("API response:", response.status, responseData);
-
-  //     if (response.ok) {
-  //       alert("Book added successfully!");
-  //       // Optionally clear the form
-  //       setTitle("");
-  //       setDescription("");
-  //       setPrice("");
-  //       setImage("");
-  //     } else {
-  //       alert("Something went wrong while adding the book.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error adding book:", error);
-  //     alert("Network error or server issue.");
-  //   }
-  // };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -193,7 +155,7 @@ const BookForm = () => {
 
         <button type="submit">Submit</button>
       </form>
-    </div>
+//     </div>
   );
 };
 

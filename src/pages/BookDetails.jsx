@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import PagesLayouts from "../layouts/PagesLayouts";
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -20,13 +21,13 @@ const BookDetails = () => {
   if (!book) return <div>Loading...</div>;
 
   return (
-    <div>
+    <PagesLayouts>
       <img src={book.image} alt={book.title} />
       <p>{book.id}</p>
       <h1>{book.title}</h1>
       <p>{book.description}</p>
       <p>{book.price}</p>
-    </div>
+    </PagesLayouts>
   );
 };
 

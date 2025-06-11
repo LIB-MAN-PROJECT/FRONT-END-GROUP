@@ -7,12 +7,27 @@ import Contact from "./pages/Contact";
 import Books from "./pages/Books";
 import ClientSide from "./pages/ClientSide";
 import BookDetails2 from "./pages/BookDetails2";
+import Navbar2 from "./components/Navbar2";
+import Navbar from "./components/Navbar";
+import About from "./pages/About";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Landing />,
+    },
+    {path: "/user-panel",
+      element: <Landing/>,
+
+    },
+    {path: "/admin-panel",
+      element: <Navbar2/>,
+
+    },
+    {path: "/about-us",
+      element: <About/>,
+
     },
     {
       path: "/books/:id",
@@ -26,6 +41,7 @@ function App() {
       path: "/contact",
       element: <Contact />,
     },
+
     {
       path: "/books",
       element: <Books />,
