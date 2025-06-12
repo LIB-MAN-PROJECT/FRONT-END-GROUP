@@ -5,7 +5,7 @@ import BookCard from "../components/BookCard";
 
 const Books = () => {
   // fetch your products from the API
-  const baseEnd = "https://btl-products-api.onrender.com/products";
+  const baseEnd = "https://back-end-o4em.onrender.com/books";
   const [books, setBooks] = useState([]);
   const fetchProducts = async () => {
     try {
@@ -41,7 +41,8 @@ const Books = () => {
   return (
     <PagesLayouts>
       <div>
-+        <input
+        +{" "}
+        <input
           type="text"
           placeholder="Search by title..."
           value={searchTerm}
