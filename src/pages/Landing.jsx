@@ -1,15 +1,14 @@
-import PagesLayouts from "../layouts/PagesLayouts"
-import { Link } from "react-router"
+import Footer from "../components/Footer"
+import Hero from "../components/Hero"
+import Navbar from "../components/Navbar"
 
 
 const Landing = () => {
-  return (
-    <PagesLayouts>
-        <h1>
-            THE TEXT GOES HERE!
-        </h1>
-        <Link to="/">ClientSide</Link>
-    </PagesLayouts>
+  return (<div>
+    <Navbar/>
+    <Hero/>
+    <Footer/>
+  </div>
   )
 }
 

@@ -1,15 +1,9 @@
+import React from 'react'
 
-
-const BookCard = ({ image, title, description, price }) => {
+const BookCard = () => {
   return (
-    <div >
-      <img src={image} alt={title} />
-      <h2 >{title}</h2>
-      {/* <p >{description}</p> */}
-      <p >${price}</p>
-      <button>Delete</button>
-    </div>
-  );
-};
+    <div>BookCard</div>
+  )
+}
 
-export default BookCard;
+export default BookCard

@@ -1,46 +1,69 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import { useParams } from "react-router";
+import PagesLayouts from "../layouts/PagesLayouts";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const BookDetails2 = () => {
-  const { id } = useParams();
-  const [book, setBook] = useState(null);
-  const [loading, setLoading] = useState(true);
+  //extract the id from the router params
+  const params = useParams();
+  console.log(params);
 
-  const Filter = async () => {
+  const [loading, setLoading] = useState(false);
+  const [book, setBook] = useState({});
+
+  const fetchSingleBook = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("https://btl-products-api.onrender.com/products");
-      const data = await response.json();
-      const matchedBook = data.find((item) => item.id.toString() === id);
-      setBook(matchedBook);
+      const res = await axios.get(
+        `https://library-management-api-backup.onrender.com/books/${params?.id}`
+      );
+
+      console.log(res.data);
+      setBook(res.data.findBook);
     } catch (error) {
-      console.error("Failed to fetch book:", error);
+      console.log(error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    Filter();
-  }, [id]);
-
-  if (loading) return <p>Loading book details...</p>;
-  if (!book) return <p>Book not found.</p>;
+    fetchSingleBook();
+  }, []);
 
   return (
-    <div>
-        <Navbar/>
-      <img src={book.image} alt={book.title} />
-      <p>ID: {book.id}</p>
-      <h1>{book.title}</h1>
-      <p>{book.description}</p>
-      <p>{book.price}</p>
-      <button>
-        <Link to ="/books"> Back to Book List!
-        </Link>
-      </button>
-    </div>
+    <PagesLayouts>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <section id="book-details" className="grid grid-cols-[1fr 1fr]">
+          <div className="image">
+            <img
+              src={book.bookImg}
+              alt="book-image"
+              className="h-40 w-full object-cover"
+            />
+          </div>
+          <div className="details">
+            <p>
+              Book Title: <span className="font-medium">{book.title}</span>
+            </p>
+            <p>
+              Author: <span className="font-medium">{book.author}</span>
+            </p>
+            <p>
+              Genre: <span className="font-medium">{book.genre}</span>
+            </p>
+            <p>
+              Description: <span className="font-medium">{book.summary}</span>
+            </p>
+            {/* <p>
+            Published: <span className="font-medium">{book.year}</span>
+          </p> */}
+          </div>
+        </section>
+      )}
+    </PagesLayouts>
   );
 };
-
 export default BookDetails2;
