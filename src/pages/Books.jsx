@@ -1,76 +1,99 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import PagesLayouts from "../layouts/PagesLayouts";
-import { useState, useEffect } from "react";
-import BookCard from "../components/BookCard";
 
-const Books = () => {
-  const baseEnd = "https://library-management-api-backup.onrender.com/books";
+function Books() {
+  const [loading, setLoading] = useState(false);
   const [books, setBooks] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
-  const fetchProducts = async () => {
+  const handleDelete = async (id) => {
     try {
-      const response = await fetch(baseEnd);
-      const data = await response.json();
-      setBooks(data);
+      const res = await axios.delete(
+        `https://library-management-api-backup.onrender.com/books/${id}`
+      );
+      alert(res.data.message);
+      fetchBooks();
     } catch (error) {
-      console.error("Error fetching books:", error);
+      console.log(error);
     }
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const fetchBooks = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        "https://library-management-api-backup.onrender.com/books"
+      );
 
-  const filteredBooks = books.filter((book) => {
-    const lowerSearch = searchTerm.toLowerCase();
-    return (
-      book.title.toLowerCase().includes(lowerSearch) ||
-      book.description.toLowerCase().includes(lowerSearch) ||
-      book.price.toString().includes(lowerSearch)
-    );
-  });
+      console.log(res.data);
+      setBooks(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
   return (
     <PagesLayouts>
-      <br />
-      <div className="pages-layout py-12 px-6 min-h-screen">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-semibold text-white mb-6 text-center">
-            Explore Our Book Collection
-          </h2>
-          <br />
-          <input
-            type="text"
-            placeholder="Search books..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full md:w-1/2 p-3 rounded-xl mb-8 bg-white text-black border border-gray-300 shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
-          />
-          <br />
-          {filteredBooks.length === 0 ? (
-            <p className="text-center text-gray-400 mt-4">
-              No books found.Try searching by title,price or published year
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-              {filteredBooks.map((book) => (
-                <Link to={`/books/${book.id}`} key={book.id}>
-                  <BookCard
-                    bookImg={book.bookImg}
-                    id={book.id}
-                    title={book.title}
-                    author={book.author}
-                    genre={book.genre}
-                  />
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
+      <h1>All Books</h1>
+      <div className="p-10 bg-gray">
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          Discover our books
+        </h1>
+        {loading ? (
+          <p className="w-full flex justify-center">Loading....</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative">
+            {books.map((book) => (
+              <div
+                key={book.id}
+                className="w-full bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl border-white"
+              >
+                <img
+                  src={book.bookImg}
+                  alt="book-image"
+                  className="h-40 w-full object-cover"
+                />
+                <div className="p-5">
+                  <h2 className="text-xl font-bold text-gray-800">
+                    {book.title}
+                  </h2>
+
+                  <p className="text-red-500 mt-1">by {book.author}</p>
+                  {book.genre && (
+                    <p className=" text-sm text-black"> Genre: {book.genre}</p>
+                  )}
+                  <p className="mt-2 text-bold text-blue-800">
+                    Published: {book.year}
+                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <button
+                      className="mt-1 px-4 py-2 bg-red-400 text-white rounded-lg w-full"
+                      onClick={() => navigate(`/books/${book.id}`)}
+                    >
+                      View Details
+                    </button>
+                    <button
+                      className="mt-1 px-6 py-2 bg-black text-white rounded-lg w-full"
+                      onClick={() => handleDelete(book.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </PagesLayouts>
   );
-};
+}
 
 export default Books;
