@@ -7,6 +7,7 @@ import Contact from "./pages/Contact";
 import Books from "./pages/Books";
 import ClientSide from "./pages/ClientSide";
 import BookDetails2 from "./pages/BookDetails2";
+import Test from "./pages/Test";
 
 function App() {
   const router = createBrowserRouter([
@@ -34,6 +35,10 @@ function App() {
       path: "/client-side",
       element: <ClientSide />,
     },
+    {
+      path: "/test",
+      element: <Test/>
+    }
   ]);
 
   return <RouterProvider router={router} />;

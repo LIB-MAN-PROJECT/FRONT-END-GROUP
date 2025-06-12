@@ -1,6 +1,36 @@
+import React, { useState } from 'react';
+
 const BookForm = () => {
+ // State to show/hide the success message
+  const [showSuccess, setShowSuccess] = useState(false);
+  // State to simulate loading
+  const [loading, setLoading] = useState(false);
+
+  const handleAdd = () => {
+    // Start loading
+    setLoading(true);
+
+    // Simulate a network request or some async action
+    setTimeout(() => {
+      setLoading(false); // End loading
+      setShowSuccess(true); // Show success message
+
+      // Hide the success message after 2 seconds
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 2000);
+    }, 1000); // Simulates a 1-second "Add" process
+  };
+
+     
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-md space-y-6">
+    <div className="max-w-2xl mx-auto p-3 bg-white rounded-2xl shadow-md space-y-6 border-2">
+       {showSuccess && (
+        <div style={{ color: 'green', marginBottom: '10px' }}>
+           Book added successfully!
+        </div>
+      )}
+
       <h2 className="text-2xl font-bold text-gray-800">Add a Book</h2>
       <form className="space-y-4">
         <div>
@@ -94,8 +124,9 @@ const BookForm = () => {
         </div>
 
         <div className="flex space-x-4">
-          <button
-            type="add"
+          <button onClick={handleAdd} disabled={loading}
+
+            type="text"
             className="ml-6 w-5/12 bg-blue-600 px-6 text-white p-2 rounded-xl hover:bg-blue-700 transition"
           >
             Add
@@ -106,6 +137,8 @@ const BookForm = () => {
           >
             Edit
           </button>
+                    {loading ? 'Adding...' : ''}
+
         </div>
       </form>
     </div>
