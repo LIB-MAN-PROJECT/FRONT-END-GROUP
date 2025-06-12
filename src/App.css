@@ -192,3 +192,8 @@ nav {
   padding-left: 100px;
   padding-top: 100px;
 }
+
+.footer li{
+list-style-type: none;
+}
+

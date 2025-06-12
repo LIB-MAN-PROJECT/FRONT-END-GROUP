@@ -41,6 +41,7 @@ function Books() {
 
   return (
     <PagesLayouts>
+
       <h1>All Books</h1>
       <div className="p-10 bg-gray">
         <h1 className="text-3xl font-bold mb-6 text-center">
