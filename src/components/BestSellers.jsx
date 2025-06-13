@@ -1,75 +1,58 @@
-import React from "react";
 
-const bestSellers = [
-  {
-    id: 1,
-    title: "The Midnight Library",
-    genre: "Fantasy / Fiction",
-    rating: 4.8,
-    image:
-      "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 2,
-    title: "Atomic Habits",
-    genre: "Self-Help / Psychology",
-    rating: 4.9,
-    image:
-      "https://images.unsplash.com/photo-1581092915554-7d0cdcf6a732?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 3,
-    title: "Where the Crawdads Sing",
-    genre: "Mystery / Drama",
-    rating: 4.7,
-    image:
-      "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 4,
-    title: "Educated",
-    genre: "Memoir / Biography",
-    rating: 4.6,
-    image:
-      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 5,
-    title: "It Ends With Us",
-    genre: "Romance / Drama",
-    rating: 4.5,
-    image:
-      "https://images.unsplash.com/photo-1586489946307-8cb13d5b4a6c?auto=format&fit=crop&w=500&q=80",
-  },
-];
+import  { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const BestSellers = () => {
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("https://library-management-api-backup.onrender.com/books")
+      .then((response) => {
+        setBooks(response.data.slice(0, 4)); // Pick the first 4 books
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError("Failed to fetch best sellers.");
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p className="text-center py-8 text-gray-500">Loading best sellers...</p>;
+  if (error) return <p className="text-center py-8 text-red-500">{error}</p>;
+
   return (
-    <section className="py-12 px-4 md:px-12 bg-white">
-      <h2 className="text-3xl font-bold text-center mb-8">Best Sellers</h2>
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {bestSellers.map((book) => (
-          <div
-            key={book.id}
-            className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    <div className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-10"> Our Best Sellers</h2>
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+        {books.map((book) => (
+          <Link
+            key={book._id}
+            to={`/books/${book._id}`}
+            className="block bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden transform hover:-translate-y-1"
           >
             <img
-              src={book.image}
+              src={book.bookImg}
               alt={book.title}
-              className="w-full h-64 object-cover"
+              className="w-full h-60 object-cover"
             />
             <div className="p-4">
-              <h3 className="text-xl font-semibold">{book.title}</h3>
-              <p className="text-gray-500 text-sm">{book.genre}</p>
-              <div className="flex items-center mt-2">
-                <span className="text-yellow-500 text-lg">★</span>
-                <span className="ml-1 font-medium">{book.rating}</span>
-              </div>
+              <h3 className="text-lg font-semibold text-gray-800">{book.title}</h3>
+              <p className="text-sm text-gray-600">{book.author}</p>
+             
             </div>
-          </div>
+          </Link>
+          
         ))}
       </div>
-    </section>
+      <br />
+      <br />
+      <br />
+      <p className="hover:underline"> <Link to ="/about-us">BACK TO ABOUT US SECTION</Link></p>
+    </div>
   );
 };
 
