@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 
 const Navbar2 = () => {
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-gray-800 text-white">
+    <nav className="navtwo flex items-center justify-between bg-black text-white">
       <p className="text-xl font-semibold">
-        <Link to = "/admin">Welcome Admin!</Link>
+        <Link to = "/">Welcome Admin!</Link>
       </p>
       <ul className="flex gap-x-8">
         <li>
-          <Link to="/books-admin" className="hover:underline">
+          <Link to="/booksadm" className="hover:underline">
             Find All Books
           </Link>
         </li>
@@ -18,12 +18,12 @@ const Navbar2 = () => {
           </Link>
         </li>
         <li>
-          <Link to="/contact" className="hover:underline">
+          <Link to="/contactsupport" className="hover:underline">
             Reach Support Team
           </Link>
         </li>
       </ul>
-      <Link to="/">
+      <Link to="/admin">
         <button className=" hover:underline text-white py-2 px-4 rounded-md transition">
           USER DASHBOARD
         </button>

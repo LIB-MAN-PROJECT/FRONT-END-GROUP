@@ -1,119 +1,78 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router";
 
-const BookDetails3 = () => {
+const BookDetails2 = () => {
   const { id } = useParams();
-  const [book, setBook] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [book, setBook] = useState({});
 
-  const Filter = async () => {
+  const fetchSingleBook = async () => {
+    setLoading(true);
     try {
-      const response = await fetch(
-        "https://btl-products-api.onrender.com/products"
+      const res = await axios.get(
+        `https://library-management-api-backup.onrender.com/books/${id}`
       );
-      const data = await response.json();
-      const matchedBook = data.find((item) => item.id.toString() === id);
-      setBook(matchedBook);
+      setBook(res.data.findBook);
     } catch (error) {
-      console.error("Failed to fetch book:", error);
+      console.error("Error fetching book:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    Filter();
-  }, [id]);
-
-  if (loading)
-    return <p className="text-center text-gray-400">Loading book details...</p>;
-  if (!book) return <p className="text-center text-red-500">Book not found.</p>;
-
-  const renderStars = (rating) => {
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 >= 0.5;
-    const stars = [];
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(
-        <span key={`full-${i}`} className="text-yellow-500 text-xl">
-          ★
-        </span>
-      );
-    }
-
-    if (halfStar) {
-      stars.push(
-        <span key="half" className="text-yellow-500 text-xl">
-          ✩
-        </span>
-      );
-    }
-
-    // Fill up to 5 stars
-    while (stars.length < 5) {
-      stars.push(
-        <span key={`empty-${stars.length}`} className="text-gray-300 text-xl">
-          ★
-        </span>
-      );
-    }
-
-    return stars;
-  };
+    fetchSingleBook();
+  }, []);
 
   return (
-    <div className=" bookdetails min-h-screen py-12 px-6 bg-gray-100">
-      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:flex">
-        {/* Image Section */}
-        <div className="md:w-1/2 flex items-center justify-center p-6 bg-gray-50">
-          <img
-            src={book.image}
-            alt={book.title}
-            className="w-full h-auto object-contain rounded-lg max-h-96"
-          />
-        </div>
+    <section className="books min-h-screen px-4 py-10 bg-gray-200 text-gray-800">
+      {loading ? (
+        <p className="text-center text-lg">Loading...</p>
+      ) : (
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+          {/* Book Cover */}
+          <div className="flex justify-center">
+            <img
+              src={book.bookImg}
+              alt={book.title}
+              className="w-full max-w-sm rounded shadow-lg object-cover"
+            />
+          </div>
 
-        {/* Text Section */}
-        <div className="md:w-1/2 p-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            {book.title}
-          </h1>
-          <p className="text-gray-600 mb-2">
-            <strong>ID:</strong> {book.id}
-          </p>
-          <p className="text-gray-700 mb-4">{book.description}</p>
-          <p className="text-pink-600 text-lg font-semibold mb-4">
-            ${book.price}
-          </p>
-          {book.brand && (
-            <p className="text-gray-500 mb-2">
-              <strong>Brand:</strong> {book.brand}
+          {/* Book Details */}
+          <div className="space-y-4 ">
+            <h1 className="text-3xl font-bold">{book.title}</h1>
+            <p>
+              <span className="font-semibold">Author:</span> {book.author}
             </p>
-          )}
-          {book.category && (
-            <p className="text-gray-500 mb-2">
-              <strong>Category:</strong> {book.category}
+            <p>
+              <span className="font-semibold">Publisher:</span> {book.publisher}
             </p>
-          )}
-          {book.ratings && (
-            <div className="flex items-center gap-2 mb-4">
-              <span className="font-medium text-gray-600">Rating:</span>
-              <div className="flex">{renderStars(book.ratings)}</div>
-              <span className="text-sm text-gray-500">({book.ratings})</span>
-            </div>
-          )}
-          <br />
-          <Link
-            to="/books"
-            className="inline-block  hover:underline text-black font-bold py-2 px-4 rounded transition duration-200"
-          >
-            Back to Entire Vault
-          </Link>
+            <p>
+              <span className="font-semibold">Genre:</span> {book.genre}
+            </p>
+            <p>
+              <span className="font-semibold">Year:</span>{" "}
+              {book.publication_year}
+            </p>
+            <p>
+              <span className="font-semibold">Rating:</span> {book.rating}
+            </p>
+            <p>
+              <span className="font-semibold">Summary:</span>{" "}
+              {book.summary || "No summary provided."}
+            </p>
+            <br />
+            <br />
+
+            <p><Link to ="/booksadm">Back to Book List</Link></p>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </section>
   );
 };
 
-export default BookDetails3;
+export default BookDetails2;

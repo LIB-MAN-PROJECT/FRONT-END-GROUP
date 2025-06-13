@@ -3,11 +3,9 @@ import Footer from "../components/Footer";
 
 const PagesLayouts = ({ children }) => {
   return (
-    <div className="pt-[80px] pb-[80px] min-h-screen pages-layout">
-      {/* Navbar height ~80px */}
+    <div className=" pages-layout">
       <Navbar />
-      <div className="px-4 md:px-8">{children}</div>
-      {/* Footer height ~80px */}
+      <div className="px-4 ">{children}</div>
       <Footer />
     </div>
   );

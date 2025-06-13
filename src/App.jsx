@@ -11,6 +11,8 @@ import BooksAdmin from "./pages/userpages/Books2";
 import BookDetailsAdmin from "./pages/userpages/BookDetails3";
 import Landing2 from "./pages/userpages/Landing2";
 import BestSellers from "./components/BestSellers";
+import Books2 from "./pages/userpages/Books2";
+import Contact2 from "./components/Contact2";
 import Edit from "./components/Edit";
 
 
@@ -26,11 +28,11 @@ function App() {
     },
     {
       path: "/",
-      element: <Landing />,
+      element: <Landing2 />,
     },
      {
       path: "/admin",
-      element: <Landing2 />,
+      element: <Landing />,
     },
 
     { path: "/admin-panel", element: <Navbar2 /> },
@@ -58,10 +60,19 @@ function App() {
       element: <Books />,
     },
     {
+      path: "/booksadm",
+      element: <Books2/>,
+    },
+    {
+      path: "/contactsupport",
+      element: <Contact2/>,
+    },
+
       path:"/edit-book/:id",
       element:<Edit/>
     },
   ]);
+  
 
   return <RouterProvider router={router} />;
 }
