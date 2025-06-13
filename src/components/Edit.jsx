@@ -1,85 +1,99 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "./style.css"
+import { useNavigate, useParams } from "react-router-dom";
+import "../pages/style.css"
 
-const BookForm = () => {
-  const navigate=useNavigate();
+const Edit = () => {
+  const navigate = useNavigate();
+
+  const params = useParams();
+
+  const [book, setBook] = useState({});
+  const [formData, setFormData] = useState({});
 
   // State to show/hide the success message
   const [showSuccess, setShowSuccess] = useState(false);
   // State to simulate loading
   const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e) => {
+  const fetchSingleBook = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `https://library-management-api-backup.onrender.com/books/${params?.id}`
+      );
+
+      console.log(res.data);
+      setBook(res.data.findBook);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     // prevent form from defaulting
     e.preventDefault();
 
-    const formData = e.target;
     console.log(formData);
 
     const payload = {
-      bookImg: formData.bookImg.value,
-      title: formData.title.value,
-      genre: formData.genre.value,
-      author: formData.author.value,
-      summary: formData.summary.value,
-      publisher: formData.publisher.value,
-      publication_year: formData.publication_year.value,
-      rating: formData.rating.value,
+      bookImg: formData.bookImg ?? book?.bookImg,
+      title: formData.title ?? book?.title,
+      genre: formData.genre ?? book?.genre,
+      author: formData.author ?? book?.author,
+      summary: formData.summary ?? book?.summary,
+      publisher: formData.publisher ?? book?.publisher,
+      publication_year: formData.publication_year ?? book?.publication_year,
+      rating: formData.rating ?? book?.rating,
     };
 
     try {
-      const res = await axios.post(
-        "https://library-management-api-backup.onrender.com/books",
+      const res = await axios.put(
+        `https://library-management-api-backup.onrender.com/books/${params?.id}`,
         payload
       );
       alert(res.data.message);
-      navigate("/books")
+      navigate("/books");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleAdd = () => {
-    // Start loading
-    setLoading(true);
-
-    // Simulate a network request or some async action
-    setTimeout(() => {
-      setLoading(false); // End loading
-      setShowSuccess(true); // Show success message
-
-      // Hide the success message after 2 seconds
-      setTimeout(() => {
-        setShowSuccess(false);
-      }, 2000);
-    }, 1000); // Simulates a 1-second "Add" process
-  };
+  useEffect(() => {
+    fetchSingleBook();
+  }, []);
 
   return (
-       <div className=" body bg-white p-8 rounded-lg shadow-md w-full max-w-md" >
+    <div className=" body max-w-2xl mx-auto p-3 bg-white rounded-2xl shadow-md space-y-6 border-2">
       {showSuccess && (
         <div style={{ color: "green", marginBottom: "10px" }}>
-          Book added successfully!
+          edit successfully
         </div>
       )}
 
-      <h2 className="text-center mb-5 text-gray-800 italic form-title">Add a Book</h2>
-      <form className="space-y-5 " onSubmit={handleSubmit}>
-        <div className="form-group">
+      <h2 className="text-2xl font-bold text-gray-800">Edit a Book</h2>
+      <form className="space-y-4 " onSubmit={handleSubmit}>
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Image URL
           </label>
           <input
             name="bookImg"
             type="text"
+            value={formData?.bookImg ?? book.bookImg}
             placeholder="image-url"
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, bookImg: e.target.value };
+              })
+            }
             className="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
           />
         </div>
 
-        <div className="form-group">
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Title
           </label>
@@ -87,47 +101,71 @@ const BookForm = () => {
             type="text"
             name="title"
             placeholder="Book Title"
+            value={formData?.title ?? book.title}
             className="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, title: e.target.value };
+              })
+            }
           />
         </div>
 
-        <div className="form-group">
-          <label className="block text-sm font-semibold text-gray-700">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
             Summary
           </label>
           <textarea
             name="summary"
             placeholder="Short summary of the book"
+            value={formData?.summary ?? book.summary}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, summary: e.target.value };
+              })
+            }
             rows="4"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
           ></textarea>
         </div>
 
-        <div className="form-group">
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Author
           </label>
           <input
             name="author"
             type="text"
+            value={formData?.author ?? book.author}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, author: e.target.value };
+              })
+            }
             placeholder="Author Name"
             className="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
           />
         </div>
 
-        <div className="form-group">
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Publisher
           </label>
           <input
             name="publisher"
             type="text"
+            value={formData?.publisher ?? book.publisher}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, publisher: e.target.value };
+              })
+            }
             placeholder="Publisher Name"
             className="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
           />
         </div>
 
-        <div className="form-group">
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Year of Publication
           </label>
@@ -135,29 +173,47 @@ const BookForm = () => {
             name="publication_year"
             type="number"
             placeholder="2025"
+            value={formData?.publication_year ?? book.publication_year}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, publication_year: e.target.value };
+              })
+            }
             className="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
           />
         </div>
 
-        <div className="form-group">
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Genre
           </label>
           <input
             name="genre"
             type="text"
+            value={formData?.genre ?? book.genre}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, genre: e.target.value };
+              })
+            }
             placeholder="e.g., Fiction, Romance"
             className="mt-1 block w-full border rounded-md border-gray-300 shadow-sm p-2"
           />
         </div>
 
-        <div className="form-group">
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Rating (1 to 5)
           </label>
           <input
             name="rating"
             type="number"
+            value={formData?.rating ?? book.value}
+            onChange={(e) =>
+              setFormData((prev) => {
+                return { ...prev, rating: e.target.value };
+              })
+            }
             min="1"
             max="5"
             placeholder="4"
@@ -166,21 +222,17 @@ const BookForm = () => {
         </div>
 
         <div className="flex space-x-4">
+         
           <button
-            // onClick={handleAdd}
-            disabled={loading}
             type="submit"
-            className=" w-1/1 bg-blue-600 px-6 text-white p-2 rounded-xl hover:bg-blue-700 transition add-btn"
+            className="w-1/1 bg-blue-600 text-white px-6 p-2 rounded-xl hover:bg-blue-700 transition add-btn"
           >
-            Add
+            Edit
           </button>
+          {loading ? "Adding..." : ""}
         </div>
       </form>
     </div>
-  
-   
-
-    
 
     // <form className="width-[40] p-20px border-1px rounded-lg border-gray-600">
     //   <div>
@@ -216,4 +268,4 @@ const BookForm = () => {
   );
 };
 
-export default BookForm;
+export default Edit;
