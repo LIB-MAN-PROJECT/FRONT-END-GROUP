@@ -1,4 +1,3 @@
-
 function Books() {
   const [loading, setLoading] = useState(false);
   const [books, setBooks] = useState([]);
@@ -45,7 +44,7 @@ function Books() {
   const handleReset = () => setSearchQuery("");
 
   return (
-    <PagesLayouts >
+    <PagesLayouts>
       <section className="pages-layout px-4 py-10 bg-gray-50 min-h-screen">
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-6">
           Explore our Book Section
@@ -102,5 +101,5 @@ function Books() {
       </section>
     </PagesLayouts>
   );
-
-export default Books
+}
+export default Books;

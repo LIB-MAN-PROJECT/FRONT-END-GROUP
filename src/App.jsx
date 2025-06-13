@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
- import "./App.css";
+import "./App.css";
 import Landing from "./pages/Landing";
 import BookForm from "./pages/BookForm";
 import Contact from "./pages/Contact";
@@ -15,7 +15,6 @@ import Books2 from "./pages/userpages/Books2";
 import Contact2 from "./components/Contact2";
 import Edit from "./components/Edit";
 
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -30,7 +29,7 @@ function App() {
       path: "/",
       element: <Landing2 />,
     },
-     {
+    {
       path: "/admin",
       element: <Landing />,
     },
@@ -43,7 +42,7 @@ function App() {
     },
     {
       path: "/books-admin/:id",
-      element: <BookDetailsAdmin/>,
+      element: <BookDetailsAdmin />,
     },
 
     {
@@ -61,18 +60,17 @@ function App() {
     },
     {
       path: "/booksadm",
-      element: <Books2/>,
+      element: <Books2 />,
     },
     {
       path: "/contactsupport",
-      element: <Contact2/>,
+      element: <Contact2 />,
     },
-
-      path:"/edit-book/:id",
-      element:<Edit/>
+    {
+      path: "/edit-book/:id",
+      element: <Edit />,
     },
   ]);
-  
 
   return <RouterProvider router={router} />;
 }
