@@ -1,7 +1,7 @@
-
 import  { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import React from 'react'
 
 const BestSellers = () => {
   const [books, setBooks] = useState([]);
@@ -55,5 +55,8 @@ const BestSellers = () => {
     </div>
   );
 };
+    <div>BestSellers</div>
+  )
+}
 
-export default BestSellers;
+export default BestSellers

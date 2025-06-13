@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./App.css";
+ import "./App.css";
 import Landing from "./pages/Landing";
 import BookForm from "./pages/BookForm";
 import Contact from "./pages/Contact";
@@ -13,7 +13,7 @@ import Landing2 from "./pages/userpages/Landing2";
 import BestSellers from "./components/BestSellers";
 import Books2 from "./pages/userpages/Books2";
 import Contact2 from "./components/Contact2";
-
+import Edit from "./components/Edit";
 
 
 function App() {
@@ -68,6 +68,9 @@ function App() {
       element: <Contact2/>,
     },
 
+      path:"/edit-book/:id",
+      element:<Edit/>
+    },
   ]);
   
 

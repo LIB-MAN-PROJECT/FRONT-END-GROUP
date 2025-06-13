@@ -1,7 +1,3 @@
-import { useNavigate } from "react-router";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import PagesLayouts from "../layouts/PagesLayouts";
 
 function Books() {
   const [loading, setLoading] = useState(false);
@@ -106,6 +102,5 @@ function Books() {
       </section>
     </PagesLayouts>
   );
-}
 
-export default Books;
+export default Books
