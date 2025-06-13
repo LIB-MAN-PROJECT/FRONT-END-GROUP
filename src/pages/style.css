@@ -1,0 +1,26 @@
+.body{
+    background-color:rgb(255, 255, 255) ;
+    max-width: 100vw;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+  background-color: rgb(242, 247, 245);
+  width: 100%;
+  max-width: 50vw;
+  padding: 30px 40px;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+.add-btn{
+    margin-top: 25px;
+}
+
+/* h2.form-title{
+    font-weight:bold;
+} */

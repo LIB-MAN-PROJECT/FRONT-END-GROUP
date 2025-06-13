@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./App.css";
+ import "./App.css";
 import Landing from "./pages/Landing";
 import BookForm from "./pages/BookForm";
 import Contact from "./pages/Contact";
@@ -11,6 +11,7 @@ import BooksAdmin from "./pages/userpages/Books2";
 import BookDetailsAdmin from "./pages/userpages/BookDetails3";
 import Landing2 from "./pages/userpages/Landing2";
 import BestSellers from "./components/BestSellers";
+import Edit from "./components/Edit";
 
 
 function App() {
@@ -55,6 +56,10 @@ function App() {
     {
       path: "/books",
       element: <Books />,
+    },
+    {
+      path:"/edit-book/:id",
+      element:<Edit/>
     },
   ]);
 
